@@ -17,19 +17,16 @@ export default function AboutPreview() {
           <div className="mt-6 h-1 w-24 bg-sky-400" />
         </div>
 
-        <div>
-          <p className="text-lg leading-8 text-slate-600">
-            Tanana Smart Base develops practical, reliable and maintainable
-            solutions for rural development in Madagascar. Our work brings
-            together energy, water, agriculture, construction and technical
-            infrastructure to support communities, businesses and local
-            projects.
-          </p>
+       <div>
+  <p className="text-lg leading-8 text-slate-600">
+    DEPLOYMENT TEST 01 : This text was updated locally to verify that
+    changes are correctly published through GitHub and Cloudflare.
+  </p>
 
-          <p className="mt-5 text-lg leading-8 text-slate-600">
-            We focus on solutions that are adapted to local conditions,
-            technically sound and designed for long-term use.
-          </p>
+  <p className="mt-5 text-lg leading-8 text-slate-600">
+    DEPLOYMENT TEST 02 : If you can see this message on the live website,
+    the automatic deployment system is working correctly.
+  </p>
 
           <a
             href="/about"
