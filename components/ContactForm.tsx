@@ -52,7 +52,7 @@ export default function ContactForm() {
       form.reset();
       setStatus("success");
       setFeedback(
-        "Thank you. Your message has been sent successfully. Our team will respond as soon as possible.",
+        "Thank you. Your message has been sent successfully. If you included contact information, our team will be able to respond to your enquiry.",
       );
     } catch (error) {
       setStatus("error");
@@ -92,8 +92,8 @@ export default function ContactForm() {
 
           <p className="mt-6 text-lg leading-8 text-slate-600">
             Provide a brief description of what you need. We will review your
-            enquiry and contact you to discuss the technical requirements,
-            practical options and next steps.
+            enquiry and consider the technical requirements, practical options
+            and possible next steps.
           </p>
 
           <div className="mt-8 rounded-2xl border border-sky-200/70 bg-sky-50/80 p-5">
@@ -113,6 +113,7 @@ export default function ContactForm() {
           {/* Spam-protection honeypot */}
           <div className="hidden" aria-hidden="true">
             <label htmlFor="company">Company website</label>
+
             <input
               id="company"
               name="company"
@@ -122,13 +123,22 @@ export default function ContactForm() {
             />
           </div>
 
+          {/* Contact-information notice */}
+          <div className="mb-6 rounded-xl border border-sky-200 bg-sky-50/80 px-5 py-4 text-sm leading-6 text-slate-600">
+            You may submit your message without providing personal contact
+            information. However, please include an email address or
+            phone/WhatsApp number if you would like us to contact you regarding
+            your enquiry.
+          </div>
+
           <div className="grid gap-6 md:grid-cols-2">
             <label className="block text-sm font-semibold text-slate-700">
-              Full name <span className="text-sky-600">*</span>
+              Full name{" "}
+              <span className="font-normal text-slate-400">(optional)</span>
+
               <input
                 name="name"
                 type="text"
-                required
                 minLength={2}
                 maxLength={100}
                 autoComplete="name"
@@ -138,11 +148,12 @@ export default function ContactForm() {
             </label>
 
             <label className="block text-sm font-semibold text-slate-700">
-              Email address <span className="text-sky-600">*</span>
+              Email address{" "}
+              <span className="font-normal text-slate-400">(optional)</span>
+
               <input
                 name="email"
                 type="email"
-                required
                 maxLength={150}
                 autoComplete="email"
                 placeholder="you@example.com"
@@ -151,7 +162,9 @@ export default function ContactForm() {
             </label>
 
             <label className="block text-sm font-semibold text-slate-700">
-              Phone / WhatsApp
+              Phone / WhatsApp{" "}
+              <span className="font-normal text-slate-400">(optional)</span>
+
               <input
                 name="phone"
                 type="tel"
@@ -164,6 +177,7 @@ export default function ContactForm() {
 
             <label className="block text-sm font-semibold text-slate-700">
               Service or subject <span className="text-sky-600">*</span>
+
               <select
                 name="subject"
                 required
@@ -185,6 +199,7 @@ export default function ContactForm() {
 
           <label className="mt-6 block text-sm font-semibold text-slate-700">
             Message <span className="text-sky-600">*</span>
+
             <textarea
               name="message"
               required
@@ -198,8 +213,9 @@ export default function ContactForm() {
 
           <div className="mt-7 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <p className="max-w-md text-sm leading-6 text-slate-500">
-              Fields marked with an asterisk are required. Your information
-              will only be used to respond to this enquiry.
+              Only the subject and message are required. Contact information is
+              optional, but it allows us to reply if further discussion is
+              necessary.
             </p>
 
             <button

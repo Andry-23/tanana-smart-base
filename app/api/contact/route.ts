@@ -53,17 +53,16 @@ export async function POST(request: Request) {
       return Response.json({ success: true });
     }
 
-    if (name.length < 2 || name.length > 100) {
+    // Name is optional, but validate it when provided.
+    if (name && (name.length < 2 || name.length > 100)) {
       return Response.json(
         { error: "Please provide a valid full name." },
         { status: 400 },
       );
     }
 
-    if (
-      !emailPattern.test(email) ||
-      email.length > 150
-    ) {
+    // Email is optional, but validate it when provided.
+    if (email && (!emailPattern.test(email) || email.length > 150)) {
       return Response.json(
         { error: "Please provide a valid email address." },
         { status: 400 },
@@ -110,8 +109,8 @@ export async function POST(request: Request) {
 
     const resend = new Resend(apiKey);
 
-    const safeName = escapeHtml(name);
-    const safeEmail = escapeHtml(email);
+    const safeName = escapeHtml(name || "Not provided");
+    const safeEmail = escapeHtml(email || "Not provided");
     const safePhone = escapeHtml(phone || "Not provided");
     const safeSubject = escapeHtml(subject);
     const safeMessage = escapeHtml(message).replace(/\n/g, "<br />");
@@ -120,20 +119,27 @@ export async function POST(request: Request) {
       from: "Tanana Smart Base Website <website@send.tananasmartbase.com>",
       to: ["info@tananasmartbase.com"],
       subject: `New website enquiry — ${subject}`,
-      headers: {
-        "Reply-To": email,
-      },
+
+      ...(email
+        ? {
+            headers: {
+              "Reply-To": email,
+            },
+          }
+        : {}),
+
       text: [
         "New Tanana Smart Base website enquiry",
         "",
-        `Name: ${name}`,
-        `Email: ${email}`,
+        `Name: ${name || "Not provided"}`,
+        `Email: ${email || "Not provided"}`,
         `Phone / WhatsApp: ${phone || "Not provided"}`,
         `Subject: ${subject}`,
         "",
         "Message:",
         message,
       ].join("\n"),
+
       html: `
         <div style="font-family: Arial, sans-serif; color: #0f172a; line-height: 1.6;">
           <h1 style="font-size: 24px; margin-bottom: 24px;">
@@ -145,14 +151,17 @@ export async function POST(request: Request) {
               <td style="padding: 8px; font-weight: bold;">Name</td>
               <td style="padding: 8px;">${safeName}</td>
             </tr>
+
             <tr>
               <td style="padding: 8px; font-weight: bold;">Email</td>
               <td style="padding: 8px;">${safeEmail}</td>
             </tr>
+
             <tr>
               <td style="padding: 8px; font-weight: bold;">Phone / WhatsApp</td>
               <td style="padding: 8px;">${safePhone}</td>
             </tr>
+
             <tr>
               <td style="padding: 8px; font-weight: bold;">Subject</td>
               <td style="padding: 8px;">${safeSubject}</td>
