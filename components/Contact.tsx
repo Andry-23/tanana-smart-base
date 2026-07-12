@@ -1,4 +1,6 @@
 import CopyButton from "@/components/CopyButton";
+import ContactForm from "@/components/ContactForm";
+
 
 export default function Contact() {
   const whatsappUrl =
@@ -209,6 +211,7 @@ export default function Contact() {
             </div>
           </a>
         </div>
+        <ContactForm />
       </div>
     </section>
   );
