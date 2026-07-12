@@ -1,3 +1,4 @@
+import AboutShowcase from "@/components/AboutShowcase";
 export default function AboutPreview() {
   return (
     <section
@@ -80,6 +81,7 @@ export default function AboutPreview() {
             </div>
           </div>
         </div>
+        <AboutShowcase />
       </div>
     </section>
   );
