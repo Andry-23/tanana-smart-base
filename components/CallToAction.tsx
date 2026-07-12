@@ -78,7 +78,7 @@ export default function CallToAction() {
             </div>
 
             <a
-              href="#contact"
+              href="/contact"
               className="inline-flex items-center justify-center gap-3 rounded-md bg-sky-500 px-7 py-4 font-semibold text-white shadow-lg transition duration-300 hover:-translate-y-1 hover:bg-sky-400 hover:shadow-[0_18px_40px_rgba(14,165,233,0.30)]"
             >
               Contact Our Team
