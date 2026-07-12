@@ -1,23 +1,23 @@
 const services = [
   {
-    title: "Solar Energy Systems",
+    title: "Integrated Energy & Electrical Systems",
     description:
-      "Design and implementation of off-grid and hybrid solar systems for rural facilities, farms, workshops, and small productive sites. We focus on reliable generation, battery integration, energy efficiency, and system sizing adapted to real demand, operating conditions, and long-term use.",
+      "Design and implementation of modern energy and electrical systems for homes, farms, businesses and rural infrastructure. Our solutions combine solar generation, battery storage, electrical distribution, protection, lighting, controls and backup power for reliable, efficient and safe operation."
   },
   {
-    title: "Water Supply Infrastructure",
+    title: "Water Systems & Hydraulic Infrastructure",
     description:
-      "Engineering of pumping systems, elevated water storage, gravity-fed distribution, and related hydraulic infrastructure for reliable rural water access. Our approach prioritizes durability, operational simplicity, and solutions adapted to terrain, usage patterns, and maintenance realities.",
+      "Engineering of complete water systems from wells and water sources to pumping, storage, piping and distribution. We integrate pumps, tanks, pipelines, valves, controls and supporting infrastructure to deliver durable, maintainable solutions adapted to site conditions and operational needs."
   },
   {
-    title: "Agricultural Tools & Infrastructure",
+    title: "Smart Agricultural Systems & Rural Infrastructure",
     description:
-      "Development of practical infrastructure that supports agricultural productivity, including irrigation systems, farm support installations, basic processing utilities, and energy-linked field solutions. We design systems that improve efficiency while remaining robust and realistic for local use.",
+      "Development of practical, technology-enabled systems for farms, livestock operations and rural production. Our solutions may combine irrigation, energy, water, equipment, monitoring, storage, processing and supporting infrastructure to improve productivity, resilience and resource efficiency."
   },
   {
     title: "Technical & Engineering Consulting",
     description:
-      "Engineering support for feasibility studies, concept development, cost estimation, technical review, optimization, and system planning. We help clients turn ideas into workable, well-structured projects with strong technical logic and practical implementation value.",
+      "Engineering support for feasibility studies, concept development, system design, technical review, cost estimation and project planning. We transform ideas and operational needs into technically sound, economically realistic and implementation-ready solutions.",
   },
 ];
 
