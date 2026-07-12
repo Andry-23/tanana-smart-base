@@ -5,6 +5,7 @@ import ServicesPreview from "@/components/ServicesPreview";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import ProjectsPreview from "@/components/ProjectsPreview";
 import ContactCTA from "@/components/ContactCTA";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <WhyChooseUs />
       <ProjectsPreview />
       <ContactCTA />
+      <Footer />
     </main>
   );
 }
