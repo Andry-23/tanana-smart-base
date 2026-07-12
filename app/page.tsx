@@ -7,7 +7,7 @@ import ProjectsPreview from "@/components/ProjectsPreview";
 import ContactCTA from "@/components/ContactCTA";
 import Footer from "@/components/Footer";
 import CallToAction from "@/components/CallToAction";
-import Contact from "@/components/Contact";
+
 
 export default function Home() {
   return (
@@ -19,7 +19,6 @@ export default function Home() {
       <ProjectsPreview />
       <CallToAction />
       <Footer />
-      <Contact />
     </main>
   );
 }
