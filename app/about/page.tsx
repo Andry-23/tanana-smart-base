@@ -1,7 +1,35 @@
+import type { Metadata } from "next";
 import AboutPreview from "@/components/AboutPreview";
 import Contact from "@/components/Contact";
 
-export default function AboutPage() {
+
+const aboutDescription =
+  "Learn about Tanana Smart Base, a Madagascar-based engineering company developing practical, reliable and maintainable solutions for energy, water, agriculture and rural infrastructure.";
+
+export const metadata: Metadata = {
+  title: "About",
+
+  description: aboutDescription,
+
+  alternates: {
+    canonical: "/about",
+  },
+
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/about",
+    siteName: "Tanana Smart Base",
+    title: "About Tanana Smart Base",
+    description: aboutDescription,
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "About Tanana Smart Base",
+    description: aboutDescription,
+  },
+};export default function AboutPage() {
   return (
     <main className="bg-[#EAF1F6]">
       {/* Hero */}
