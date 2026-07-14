@@ -1,6 +1,15 @@
 import Link from "next/link";
 
-const projects = [
+export type ProjectPreviewItem = {
+  number: string;
+  category: string;
+  status: string;
+  title: string;
+  description: string;
+  href: string;
+};
+
+const defaultProjects: ProjectPreviewItem[] = [
   {
     number: "01",
     category: "Integrated Rural Infrastructure",
@@ -39,28 +48,46 @@ const projects = [
   },
 ];
 
-export default function ProjectsPreview() {
+type ProjectsPreviewProps = {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  projects?: ProjectPreviewItem[];
+  viewProjectLabel?: string;
+  allProjectsLabel?: string;
+  allProjectsHref?: string;
+};
+
+export default function ProjectsPreview({
+  eyebrow = "Projects & Initiatives",
+  title = "Engineering ideas developed into practical systems",
+  description = "Explore selected Tanana Smart Base projects and initiatives combining energy, water, agriculture and technical infrastructure. Each project is developed around real operating needs, local conditions and long-term maintainability.",
+  projects = defaultProjects,
+  viewProjectLabel = "View project",
+  allProjectsLabel = "View All Projects",
+  allProjectsHref = "/projects",
+}: ProjectsPreviewProps) {
   return (
-    <section id="projects" className="bg-slate-950 px-6 py-20 md:py-24">
+    <section
+      id="projects"
+      className="bg-slate-950 px-6 py-20 md:py-24"
+    >
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-end">
           <div>
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-sky-400">
-              Projects & Initiatives
+              {eyebrow}
             </p>
 
             <h2 className="max-w-3xl text-4xl font-bold leading-tight text-white md:text-5xl">
-              Engineering ideas developed into practical systems
+              {title}
             </h2>
 
             <div className="mt-6 h-1 w-24 bg-sky-400" />
           </div>
 
           <p className="max-w-xl text-lg leading-8 text-slate-300">
-            Explore selected Tanana Smart Base projects and initiatives
-            combining energy, water, agriculture and technical infrastructure.
-            Each project is developed around real operating needs, local
-            conditions and long-term maintainability.
+            {description}
           </p>
         </div>
 
@@ -99,10 +126,11 @@ export default function ProjectsPreview() {
                   href={project.href}
                   className="mt-7 inline-flex items-center gap-2 font-semibold text-sky-400 transition hover:text-sky-300"
                 >
-                  View project
+                  {viewProjectLabel}
+
                   <span
                     aria-hidden="true"
-                    className="transition-transform group-hover:translate-x-1"
+                    className="transition-transform duration-300 group-hover:translate-x-1"
                   >
                     →
                   </span>
@@ -114,10 +142,17 @@ export default function ProjectsPreview() {
 
         <div className="mt-12">
           <Link
-            href="/projects"
-            className="inline-flex rounded-md bg-sky-500 px-6 py-3 font-semibold text-white transition hover:bg-sky-400"
+            href={allProjectsHref}
+            className="group inline-flex items-center gap-3 rounded-md bg-sky-500 px-6 py-3 font-semibold text-white transition hover:bg-sky-400"
           >
-            View All Projects
+            {allProjectsLabel}
+
+            <span
+              aria-hidden="true"
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            >
+              →
+            </span>
           </Link>
         </div>
       </div>
