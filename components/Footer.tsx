@@ -1,31 +1,103 @@
 import Link from "next/link";
 
-const navigation = [
-  { name: "About", href: "/about" },
-  { name: "Services", href: "/services" },
-  { name: "Why Choose Us", href: "/#why-choose-us" },
-  { name: "Projects", href: "/projects" },
-  { name: "Contact", href: "/contact" },
-];
+type FooterNavigationLabels = {
+  about: string;
+  services: string;
+  whyChooseUs: string;
+  projects: string;
+  contact: string;
+};
 
-const disciplines = [
+type FooterProps = {
+  basePath?: string;
+  description?: string;
+  navigationTitle?: string;
+  disciplinesTitle?: string;
+  companyInformationTitle?: string;
+  registeredLocationLabel?: string;
+  rightsReserved?: string;
+  privacyPolicyLabel?: string;
+  termsLabel?: string;
+  navigationLabels?: FooterNavigationLabels;
+  disciplines?: string[];
+};
+
+const defaultNavigationLabels: FooterNavigationLabels = {
+  about: "About",
+  services: "Services",
+  whyChooseUs: "Why Choose Us",
+  projects: "Projects",
+  contact: "Contact",
+};
+
+const defaultDisciplines = [
   "Energy & Electrical Systems",
   "Water & Hydraulic Infrastructure",
   "Smart Agricultural Systems",
   "Technical & Engineering Consulting",
 ];
 
-export default function Footer() {
+export default function Footer({
+  basePath = "",
+  description = "Practical engineering solutions integrating energy, water, agriculture and technical infrastructure for stronger rural communities in Madagascar.",
+  navigationTitle = "Navigation",
+  disciplinesTitle = "Engineering Disciplines",
+  companyInformationTitle = "Company Information",
+  registeredLocationLabel = "Registered location",
+  rightsReserved = "All rights reserved.",
+  privacyPolicyLabel = "Privacy Policy",
+  termsLabel = "Terms of Use",
+  navigationLabels = defaultNavigationLabels,
+  disciplines = defaultDisciplines,
+}: FooterProps) {
   const currentYear = new Date().getFullYear();
+
+  function getHref(path: string) {
+    if (!basePath) {
+      return path;
+    }
+
+    if (path === "/") {
+      return basePath;
+    }
+
+    if (path.startsWith("/#")) {
+      return `${basePath}${path.slice(1)}`;
+    }
+
+    return `${basePath}${path}`;
+  }
+
+  const navigation = [
+    {
+      name: navigationLabels.about,
+      href: getHref("/about"),
+    },
+    {
+      name: navigationLabels.services,
+      href: getHref("/services"),
+    },
+    {
+      name: navigationLabels.whyChooseUs,
+      href: getHref("/#why-choose-us"),
+    },
+    {
+      name: navigationLabels.projects,
+      href: getHref("/projects"),
+    },
+    {
+      name: navigationLabels.contact,
+      href: getHref("/contact"),
+    },
+  ];
 
   return (
     <footer className="border-t border-sky-400/20 bg-[#020817] px-6 pb-8 pt-16 text-white">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-12 border-b border-white/10 pb-14 md:grid-cols-2 lg:grid-cols-[1.35fr_0.8fr_1fr_0.9fr]">
-          {/* Brand */}
           <div>
             <Link
-              href="/"
+              href={getHref("/")}
               className="text-xl font-bold tracking-wide transition hover:text-sky-400"
             >
               TANANA SMART BASE
@@ -34,21 +106,18 @@ export default function Footer() {
             <div className="mt-4 h-1 w-16 bg-sky-400" />
 
             <p className="mt-6 max-w-md leading-7 text-slate-400">
-              Practical engineering solutions integrating energy, water,
-              agriculture and technical infrastructure for stronger rural
-              communities in Madagascar.
+              {description}
             </p>
           </div>
 
-          {/* Navigation */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-400">
-              Navigation
+              {navigationTitle}
             </h3>
 
             <ul className="mt-6 space-y-4">
               {navigation.map((item) => (
-                <li key={item.name}>
+                <li key={item.href}>
                   <Link
                     href={item.href}
                     className="inline-flex text-slate-400 transition hover:translate-x-1 hover:text-white"
@@ -60,10 +129,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Disciplines */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-400">
-              Engineering Disciplines
+              {disciplinesTitle}
             </h3>
 
             <ul className="mt-6 space-y-4">
@@ -78,15 +146,17 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Company details */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-400">
-              Company Information
+              {companyInformationTitle}
             </h3>
 
             <div className="mt-6 space-y-5 text-sm text-slate-400">
               <div>
-                <p className="font-semibold text-white">Registered location</p>
+                <p className="font-semibold text-white">
+                  {registeredLocationLabel}
+                </p>
+
                 <p className="mt-1 leading-6">
                   Maromoka Bas, Ambohimandroso
                   <br />
@@ -107,19 +177,24 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Legal bar */}
         <div className="flex flex-col gap-5 pt-8 text-sm text-slate-500 md:flex-row md:items-center md:justify-between">
           <p>
-            © {currentYear} Tanana Smart Base. All rights reserved.
+            {"\u00A9"} {currentYear} Tanana Smart Base. {rightsReserved}
           </p>
 
           <div className="flex flex-wrap gap-6">
-            <Link href="/privacy" className="transition hover:text-slate-300">
-              Privacy Policy
+            <Link
+              href={getHref("/privacy")}
+              className="transition hover:text-slate-300"
+            >
+              {privacyPolicyLabel}
             </Link>
 
-            <Link href="/terms" className="transition hover:text-slate-300">
-              Terms
+            <Link
+              href={getHref("/terms")}
+              className="transition hover:text-slate-300"
+            >
+              {termsLabel}
             </Link>
           </div>
         </div>
