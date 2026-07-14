@@ -1,4 +1,10 @@
-const reasons = [
+export type ReasonItem = {
+  number: string;
+  title: string;
+  description: string;
+};
+
+const defaultReasons: ReasonItem[] = [
   {
     number: "01",
     title: "Engineering-Led Thinking",
@@ -25,13 +31,24 @@ const reasons = [
   },
 ];
 
-export default function WhyChooseUs() {
+type WhyChooseUsProps = {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  reasons?: ReasonItem[];
+};
+
+export default function WhyChooseUs({
+  eyebrow = "Why Choose Us",
+  title = "Why Choose Tanana Smart Base",
+  description = "Engineering precision. Practical solutions. Long-term impact.",
+  reasons = defaultReasons,
+}: WhyChooseUsProps) {
   return (
     <section
       id="why-choose-us"
       className="relative overflow-hidden bg-[#CCDDEB] px-6 py-20 text-slate-900 md:py-24"
     >
-      {/* Subtle engineering-grid background */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.18]"
         style={{
@@ -41,22 +58,21 @@ export default function WhyChooseUs() {
         }}
       />
 
-      {/* Background glows */}
       <div className="pointer-events-none absolute -left-32 top-20 h-80 w-80 rounded-full bg-sky-300/25 blur-3xl" />
       <div className="pointer-events-none absolute -right-32 bottom-10 h-96 w-96 rounded-full bg-blue-300/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.22em] text-sky-700">
-            Why Choose Us
+            {eyebrow}
           </p>
 
           <h2 className="mt-4 text-4xl font-bold leading-tight text-slate-950 md:text-5xl">
-            Why Choose Tanana Smart Base
+            {title}
           </h2>
 
           <p className="mt-5 text-lg text-slate-700">
-            Engineering precision. Practical solutions. Long-term impact.
+            {description}
           </p>
 
           <div className="mx-auto mt-6 flex items-center justify-center gap-3">
@@ -71,17 +87,15 @@ export default function WhyChooseUs() {
               key={reason.number}
               className="group relative overflow-hidden rounded-2xl border border-white/70 bg-white/55 p-8 shadow-[0_14px_40px_rgba(15,23,42,0.08)] backdrop-blur-md transition duration-500 hover:-translate-y-2 hover:border-sky-300 hover:bg-white/85 hover:shadow-[0_24px_60px_rgba(14,165,233,0.18)] md:p-9"
             >
-              {/* Large faded number */}
               <span className="pointer-events-none absolute right-5 top-1 text-7xl font-black text-sky-500/[0.07] transition duration-500 group-hover:scale-110 group-hover:text-sky-500/[0.12] md:text-8xl">
                 {reason.number}
               </span>
 
-              {/* Expanding corner glow */}
               <div className="pointer-events-none absolute right-0 top-0 h-28 w-28 translate-x-12 -translate-y-12 rounded-full bg-sky-400/10 transition duration-500 group-hover:scale-150 group-hover:bg-sky-400/20" />
 
               <div className="relative">
                 <div className="flex items-center gap-4">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-sky-300/60 bg-sky-400/10 text-sm font-bold text-sky-700 transition duration-300 group-hover:border-sky-400 group-hover:bg-sky-500 group-hover:text-white">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-sky-300/60 bg-sky-400/10 text-sm font-bold text-sky-700 transition duration-300 group-hover:border-sky-400 group-hover:bg-sky-500 group-hover:text-white">
                     {reason.number}
                   </span>
 
@@ -97,7 +111,6 @@ export default function WhyChooseUs() {
                 </p>
               </div>
 
-              {/* Bottom technical accent */}
               <div className="absolute bottom-0 left-0 h-1 w-0 bg-sky-500 transition-all duration-500 group-hover:w-full" />
             </article>
           ))}
