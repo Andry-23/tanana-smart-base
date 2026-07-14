@@ -1,20 +1,122 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useState, type FormEvent } from "react";
 
 type FormStatus = "idle" | "sending" | "success" | "error";
 
-const services = [
-  "Energy & Electrical Systems",
-  "Water & Hydraulic Infrastructure",
-  "Smart Agricultural Systems",
-  "Technical & Engineering Consulting",
-  "General Enquiry",
-  "Collaboration",
-  "Other",
+export type ContactFormOption = {
+  value: string;
+  label: string;
+};
+
+const defaultServices: readonly ContactFormOption[] = [
+  {
+    value: "Energy & Electrical Systems",
+    label: "Energy & Electrical Systems",
+  },
+  {
+    value: "Water & Hydraulic Infrastructure",
+    label: "Water & Hydraulic Infrastructure",
+  },
+  {
+    value: "Smart Agricultural Systems",
+    label: "Smart Agricultural Systems",
+  },
+  {
+    value: "Technical & Engineering Consulting",
+    label: "Technical & Engineering Consulting",
+  },
+  {
+    value: "General Enquiry",
+    label: "General Enquiry",
+  },
+  {
+    value: "Collaboration",
+    label: "Collaboration",
+  },
+  {
+    value: "Other",
+    label: "Other",
+  },
 ];
 
-export default function ContactForm() {
+type ContactFormProps = {
+  services?: readonly ContactFormOption[];
+
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+
+  usefulInformationTitle?: string;
+  usefulInformationDescription?: string;
+
+  contactNotice?: string;
+
+  fullNameLabel?: string;
+  optionalLabel?: string;
+  fullNamePlaceholder?: string;
+
+  emailLabel?: string;
+  emailPlaceholder?: string;
+
+  phoneLabel?: string;
+  phonePlaceholder?: string;
+
+  subjectLabel?: string;
+  subjectPlaceholder?: string;
+
+  messageLabel?: string;
+  messagePlaceholder?: string;
+
+  requirementNote?: string;
+
+  sendingLabel?: string;
+  submitLabel?: string;
+
+  successMessage?: string;
+  errorMessage?: string;
+
+  honeypotLabel?: string;
+};
+
+export default function ContactForm({
+  services = defaultServices,
+
+  eyebrow = "Send Us a Message",
+  title = "Tell us about your project or technical requirement",
+  description = "Provide a brief description of what you need. We will review your enquiry and consider the technical requirements, practical options and possible next steps.",
+
+  usefulInformationTitle = "Useful information to include",
+  usefulInformationDescription = "Project location, intended use, expected capacity, existing equipment, constraints, preferred timeline and available budget.",
+
+  contactNotice = "You may submit your message without providing personal contact information. However, please include an email address or phone/WhatsApp number if you would like us to contact you regarding your enquiry.",
+
+  fullNameLabel = "Full name",
+  optionalLabel = "optional",
+  fullNamePlaceholder = "Your full name",
+
+  emailLabel = "Email address",
+  emailPlaceholder = "you@example.com",
+
+  phoneLabel = "Phone / WhatsApp",
+  phonePlaceholder = "+261...",
+
+  subjectLabel = "Service or subject",
+  subjectPlaceholder = "Select a subject",
+
+  messageLabel = "Message",
+  messagePlaceholder = "Describe your project, technical requirement or collaboration idea...",
+
+  requirementNote = "Only the subject and message are required. Contact information is optional, but it allows us to reply if further discussion is necessary.",
+
+  sendingLabel = "Sending...",
+  submitLabel = "Submit Message",
+
+  successMessage = "Thank you. Your message has been sent successfully. If you included contact information, our team will be able to respond to your enquiry.",
+  errorMessage = "Your message could not be sent. Please try again.",
+
+  honeypotLabel = "Company website",
+}: ContactFormProps) {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [feedback, setFeedback] = useState("");
 
@@ -43,24 +145,16 @@ export default function ContactForm() {
         }),
       });
 
-      const result = await response.json();
-
       if (!response.ok) {
-        throw new Error(result.error || "Unable to send your message.");
+        throw new Error(errorMessage);
       }
 
       form.reset();
       setStatus("success");
-      setFeedback(
-        "Thank you. Your message has been sent successfully. If you included contact information, our team will be able to respond to your enquiry.",
-      );
-    } catch (error) {
+      setFeedback(successMessage);
+    } catch {
       setStatus("error");
-      setFeedback(
-        error instanceof Error
-          ? error.message
-          : "Your message could not be sent. Please try again.",
-      );
+      setFeedback(errorMessage);
     }
   }
 
@@ -69,20 +163,18 @@ export default function ContactForm() {
 
   return (
     <div className="group relative mt-14 overflow-hidden rounded-3xl border border-white/80 bg-white/65 p-7 shadow-[0_22px_60px_rgba(15,23,42,0.10)] backdrop-blur-md transition duration-500 hover:border-sky-300 hover:bg-white/80 hover:shadow-[0_30px_80px_rgba(14,165,233,0.14)] md:p-10 lg:p-12">
-      {/* Decorative engineering details */}
       <div className="pointer-events-none absolute right-0 top-0 h-52 w-52 translate-x-20 -translate-y-20 rounded-full border border-sky-300/40 bg-sky-300/10 transition duration-700 group-hover:scale-125" />
 
       <div className="pointer-events-none absolute bottom-0 left-0 h-40 w-40 -translate-x-16 translate-y-16 rounded-full border border-blue-300/30 bg-blue-300/10 transition duration-700 group-hover:scale-125" />
 
       <div className="relative grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:gap-14">
-        {/* Form introduction */}
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.22em] text-sky-700">
-            Send Us a Message
+            {eyebrow}
           </p>
 
           <h2 className="mt-4 text-3xl font-bold leading-tight text-slate-950 md:text-4xl">
-            Tell us about your project or technical requirement
+            {title}
           </h2>
 
           <div className="mt-6 flex items-center gap-3">
@@ -91,28 +183,23 @@ export default function ContactForm() {
           </div>
 
           <p className="mt-6 text-lg leading-8 text-slate-600">
-            Provide a brief description of what you need. We will review your
-            enquiry and consider the technical requirements, practical options
-            and possible next steps.
+            {description}
           </p>
 
           <div className="mt-8 rounded-2xl border border-sky-200/70 bg-sky-50/80 p-5">
             <p className="font-semibold text-slate-950">
-              Useful information to include
+              {usefulInformationTitle}
             </p>
 
             <p className="mt-2 leading-7 text-slate-600">
-              Project location, intended use, expected capacity, existing
-              equipment, constraints, preferred timeline and available budget.
+              {usefulInformationDescription}
             </p>
           </div>
         </div>
 
-        {/* Contact form */}
         <form onSubmit={handleSubmit} className="relative">
-          {/* Spam-protection honeypot */}
           <div className="hidden" aria-hidden="true">
-            <label htmlFor="company">Company website</label>
+            <label htmlFor="company">{honeypotLabel}</label>
 
             <input
               id="company"
@@ -123,18 +210,16 @@ export default function ContactForm() {
             />
           </div>
 
-          {/* Contact-information notice */}
           <div className="mb-6 rounded-xl border border-sky-200 bg-sky-50/80 px-5 py-4 text-sm leading-6 text-slate-600">
-            You may submit your message without providing personal contact
-            information. However, please include an email address or
-            phone/WhatsApp number if you would like us to contact you regarding
-            your enquiry.
+            {contactNotice}
           </div>
 
           <div className="grid gap-6 md:grid-cols-2">
             <label className="block text-sm font-semibold text-slate-700">
-              Full name{" "}
-              <span className="font-normal text-slate-400">(optional)</span>
+              {fullNameLabel}{" "}
+              <span className="font-normal text-slate-400">
+                ({optionalLabel})
+              </span>
 
               <input
                 name="name"
@@ -142,41 +227,45 @@ export default function ContactForm() {
                 minLength={2}
                 maxLength={100}
                 autoComplete="name"
-                placeholder="Your full name"
+                placeholder={fullNamePlaceholder}
                 className={inputClassName}
               />
             </label>
 
             <label className="block text-sm font-semibold text-slate-700">
-              Email address{" "}
-              <span className="font-normal text-slate-400">(optional)</span>
+              {emailLabel}{" "}
+              <span className="font-normal text-slate-400">
+                ({optionalLabel})
+              </span>
 
               <input
                 name="email"
                 type="email"
                 maxLength={150}
                 autoComplete="email"
-                placeholder="you@example.com"
+                placeholder={emailPlaceholder}
                 className={inputClassName}
               />
             </label>
 
             <label className="block text-sm font-semibold text-slate-700">
-              Phone / WhatsApp{" "}
-              <span className="font-normal text-slate-400">(optional)</span>
+              {phoneLabel}{" "}
+              <span className="font-normal text-slate-400">
+                ({optionalLabel})
+              </span>
 
               <input
                 name="phone"
                 type="tel"
                 maxLength={40}
                 autoComplete="tel"
-                placeholder="+261..."
+                placeholder={phonePlaceholder}
                 className={inputClassName}
               />
             </label>
 
             <label className="block text-sm font-semibold text-slate-700">
-              Service or subject <span className="text-sky-600">*</span>
+              {subjectLabel} <span className="text-sky-600">*</span>
 
               <select
                 name="subject"
@@ -185,12 +274,12 @@ export default function ContactForm() {
                 className={inputClassName}
               >
                 <option value="" disabled>
-                  Select a subject
+                  {subjectPlaceholder}
                 </option>
 
                 {services.map((service) => (
-                  <option key={service} value={service}>
-                    {service}
+                  <option key={service.value} value={service.value}>
+                    {service.label}
                   </option>
                 ))}
               </select>
@@ -198,7 +287,7 @@ export default function ContactForm() {
           </div>
 
           <label className="mt-6 block text-sm font-semibold text-slate-700">
-            Message <span className="text-sky-600">*</span>
+            {messageLabel} <span className="text-sky-600">*</span>
 
             <textarea
               name="message"
@@ -206,16 +295,14 @@ export default function ContactForm() {
               minLength={20}
               maxLength={3000}
               rows={7}
-              placeholder="Describe your project, technical requirement or collaboration idea..."
+              placeholder={messagePlaceholder}
               className={`${inputClassName} resize-y`}
             />
           </label>
 
           <div className="mt-7 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <p className="max-w-md text-sm leading-6 text-slate-500">
-              Only the subject and message are required. Contact information is
-              optional, but it allows us to reply if further discussion is
-              necessary.
+              {requirementNote}
             </p>
 
             <button
@@ -223,7 +310,7 @@ export default function ContactForm() {
               disabled={status === "sending"}
               className="inline-flex min-w-44 items-center justify-center gap-3 rounded-md bg-sky-500 px-7 py-4 font-semibold text-white shadow-lg transition duration-300 hover:-translate-y-1 hover:bg-sky-400 hover:shadow-[0_18px_40px_rgba(14,165,233,0.28)] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
             >
-              {status === "sending" ? "Sending..." : "Submit Message"}
+              {status === "sending" ? sendingLabel : submitLabel}
 
               {status !== "sending" && (
                 <span aria-hidden="true">→</span>

@@ -1,15 +1,64 @@
-import CopyButton from "@/components/CopyButton";
+import type { ComponentProps } from "react";
+
 import ContactForm from "@/components/ContactForm";
+import CopyButton from "@/components/CopyButton";
 
+type ContactProps = {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
 
-export default function Contact() {
-  const whatsappUrl =
-    "https://wa.me/261325815100?text=Hello%20Tanana%20Smart%20Base%2C%20I%20would%20like%20to%20discuss%20a%20project.";
+  whatsappLabel?: string;
+  whatsappDescription?: string;
+  openWhatsAppLabel?: string;
+  whatsappMessage?: string;
+  phoneCopyLabel?: string;
+
+  emailLabel?: string;
+  emailDescription?: string;
+  writeEmailLabel?: string;
+  emailSubject?: string;
+  emailCopyLabel?: string;
+
+  locationLabel?: string;
+  directionsLabel?: string;
+  directionsAriaLabel?: string;
+
+  formProps?: ComponentProps<typeof ContactForm>;
+};
+
+export default function Contact({
+  eyebrow = "Contact Tanana Smart Base",
+  title = "Start a conversation with our team",
+  description = "Contact us directly about engineering services, project ideas, technical requirements or collaboration opportunities.",
+
+  whatsappLabel = "WhatsApp / Mobile",
+  whatsappDescription = "Start a direct project conversation.",
+  openWhatsAppLabel = "Open WhatsApp",
+  whatsappMessage = "Hello Tanana Smart Base, I would like to discuss a project.",
+  phoneCopyLabel = "mobile number",
+
+  emailLabel = "Email Our Team",
+  emailDescription = "Send your project requirements.",
+  writeEmailLabel = "Write an email",
+  emailSubject = "Project Enquiry - Tanana Smart Base",
+  emailCopyLabel = "email address",
+
+  locationLabel = "Our Location",
+  directionsLabel = "Get directions",
+  directionsAriaLabel = "Get directions to Tanana Smart Base",
+
+  formProps,
+}: ContactProps) {
+  const whatsappUrl = `https://wa.me/261325815100?text=${encodeURIComponent(
+    whatsappMessage,
+  )}`;
 
   const phoneUrl = "tel:+261325815100";
 
-  const emailUrl =
-    "mailto:info@tananasmartbase.com?subject=Project%20Enquiry%20-%20Tanana%20Smart%20Base";
+  const emailUrl = `mailto:info@tananasmartbase.com?subject=${encodeURIComponent(
+    emailSubject,
+  )}`;
 
   const locationUrl =
     "https://www.google.com/maps/dir/?api=1&destination=-19.540675091046943,47.41657887864126";
@@ -19,7 +68,6 @@ export default function Contact() {
       id="contact"
       className="relative overflow-hidden bg-[#DCE8F1] px-6 py-20 md:py-24"
     >
-      {/* Background glows */}
       <div className="pointer-events-none absolute -left-28 top-0 h-80 w-80 rounded-full bg-sky-300/25 blur-3xl" />
 
       <div className="pointer-events-none absolute -right-28 bottom-0 h-96 w-96 rounded-full bg-blue-300/20 blur-3xl" />
@@ -27,16 +75,15 @@ export default function Contact() {
       <div className="relative mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.22em] text-sky-700">
-            Contact Tanana Smart Base
+            {eyebrow}
           </p>
 
           <h1 className="mt-4 text-4xl font-bold leading-tight text-slate-950 md:text-5xl">
-            Start a conversation with our team
+            {title}
           </h1>
 
           <p className="mt-6 text-lg leading-8 text-slate-600">
-            Contact us directly about engineering services, project ideas,
-            technical requirements or collaboration opportunities.
+            {description}
           </p>
 
           <div className="mx-auto mt-6 flex items-center justify-center gap-3">
@@ -46,7 +93,6 @@ export default function Contact() {
         </div>
 
         <div className="mt-14 grid gap-6 lg:grid-cols-3">
-          {/* WhatsApp / Mobile */}
           <article className="group relative overflow-hidden rounded-2xl border border-sky-400/40 bg-sky-500 p-7 text-white shadow-lg transition duration-300 hover:-translate-y-2 hover:bg-sky-400 hover:shadow-[0_22px_50px_rgba(14,165,233,0.35)]">
             <div className="absolute right-0 top-0 h-32 w-32 translate-x-12 -translate-y-12 rounded-full bg-white/10 transition duration-500 group-hover:scale-150" />
 
@@ -75,7 +121,7 @@ export default function Contact() {
               </span>
 
               <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-white/80">
-                WhatsApp / Mobile
+                {whatsappLabel}
               </p>
 
               <div className="mt-2 flex flex-wrap items-center gap-3">
@@ -89,13 +135,13 @@ export default function Contact() {
                 <div className="opacity-100 transition duration-300 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100">
                   <CopyButton
                     value="+261325815100"
-                    label="mobile number"
+                    label={phoneCopyLabel}
                   />
                 </div>
               </div>
 
               <p className="mt-3 text-white/80">
-                Start a direct project conversation.
+                {whatsappDescription}
               </p>
 
               <a
@@ -104,13 +150,12 @@ export default function Contact() {
                 rel="noopener noreferrer"
                 className="mt-6 inline-flex items-center gap-2 font-semibold transition hover:translate-x-1"
               >
-                Open WhatsApp
+                {openWhatsAppLabel}
                 <span aria-hidden="true">→</span>
               </a>
             </div>
           </article>
 
-          {/* Email */}
           <article className="group relative overflow-hidden rounded-2xl border border-white/80 bg-white/75 p-7 text-slate-950 shadow-lg backdrop-blur-md transition duration-300 hover:-translate-y-2 hover:border-sky-300 hover:bg-white hover:shadow-[0_22px_50px_rgba(15,23,42,0.16)]">
             <div className="absolute right-0 top-0 h-32 w-32 translate-x-12 -translate-y-12 rounded-full bg-sky-400/10 transition duration-500 group-hover:scale-150" />
 
@@ -130,7 +175,7 @@ export default function Contact() {
               </span>
 
               <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
-                Email Our Team
+                {emailLabel}
               </p>
 
               <div className="mt-2 flex flex-wrap items-center gap-3">
@@ -144,31 +189,30 @@ export default function Contact() {
                 <div className="opacity-100 transition duration-300 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100">
                   <CopyButton
                     value="info@tananasmartbase.com"
-                    label="email address"
+                    label={emailCopyLabel}
                   />
                 </div>
               </div>
 
               <p className="mt-3 text-slate-500">
-                Send your project requirements.
+                {emailDescription}
               </p>
 
               <a
                 href={emailUrl}
                 className="mt-6 inline-flex items-center gap-2 font-semibold text-sky-700 transition hover:translate-x-1"
               >
-                Write an email
+                {writeEmailLabel}
                 <span aria-hidden="true">→</span>
               </a>
             </div>
           </article>
 
-          {/* Location */}
           <a
             href={locationUrl}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Get directions to Tanana Smart Base"
+            aria-label={directionsAriaLabel}
             className="group relative overflow-hidden rounded-2xl border border-white/80 bg-white/75 p-7 text-slate-950 shadow-lg backdrop-blur-md transition duration-300 hover:-translate-y-2 hover:border-sky-300 hover:bg-white hover:shadow-[0_22px_50px_rgba(15,23,42,0.16)]"
           >
             <div className="absolute right-0 top-0 h-32 w-32 translate-x-12 -translate-y-12 rounded-full bg-sky-400/10 transition duration-500 group-hover:scale-150" />
@@ -188,12 +232,13 @@ export default function Contact() {
                     strokeLinejoin="round"
                     d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"
                   />
+
                   <circle cx="12" cy="10" r="2.25" />
                 </svg>
               </span>
 
               <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
-                Our Location
+                {locationLabel}
               </p>
 
               <p className="mt-2 text-xl font-bold">
@@ -205,13 +250,14 @@ export default function Contact() {
               </p>
 
               <span className="mt-6 inline-flex items-center gap-2 font-semibold text-sky-700 transition group-hover:translate-x-1">
-                Get directions
+                {directionsLabel}
                 <span aria-hidden="true">↗</span>
               </span>
             </div>
           </a>
         </div>
-        <ContactForm />
+
+        <ContactForm {...formProps} />
       </div>
     </section>
   );

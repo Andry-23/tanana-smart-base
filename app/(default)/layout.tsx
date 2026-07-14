@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import "./globals.css";
-import Header from "../components/Header";
+import "../globals.css";
+import Header from "@/components/Header";
 
 const siteUrl = "https://tananasmartbase.com";
 
