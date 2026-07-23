@@ -20,41 +20,44 @@ export default function Hero({
   secondaryHref = "/contact",
 }: HeroProps) {
   return (
-    <section
-      className="relative overflow-hidden bg-cover bg-center bg-no-repeat text-white"
-      style={{
-        backgroundImage: "url('/images/hero.png')",
-      }}
-    >
-      <div className="absolute inset-0 bg-black/55" />
+    <section className="relative isolate overflow-hidden bg-[#0b3557] text-white">
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-20 bg-[url('/images/hero-smart-mobile.webp')] bg-cover bg-center bg-no-repeat md:bg-[url('/images/hero-smart-desktop.webp')]"
+      />
 
-      <div className="relative z-10 mx-auto flex min-h-[620px] max-w-7xl items-center px-6 py-20">
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-gradient-to-b from-[#041927]/95 via-[#041927]/65 to-[#041927]/15 md:bg-gradient-to-r md:from-[#041927]/95 md:via-[#041927]/65 md:to-black/10"
+      />
+
+      <div className="mx-auto flex min-h-[700px] max-w-7xl items-start px-6 py-16 md:min-h-[680px] md:items-center md:py-20">
         <div className="max-w-4xl">
-          <p className="mb-5 text-sm font-semibold uppercase tracking-[0.22em] text-sky-300">
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-sky-300 sm:text-sm md:mb-5 md:tracking-[0.22em]">
             {eyebrow}
           </p>
 
-          <h1 className="max-w-4xl text-5xl font-bold leading-tight tracking-tight md:text-7xl">
+          <h1 className="max-w-4xl text-[2.5rem] font-bold leading-[1.08] tracking-tight sm:text-5xl md:text-7xl md:leading-tight">
             {title}
           </h1>
 
-          <div className="mt-8 h-1 w-32 bg-sky-400" />
+          <div className="mt-6 h-1 w-24 bg-sky-400 md:mt-8 md:w-32" />
 
-          <p className="mt-8 max-w-2xl text-lg leading-8 text-slate-100 md:text-xl">
+          <p className="mt-6 max-w-2xl text-base leading-7 text-slate-100 sm:text-lg md:mt-8 md:text-xl md:leading-8">
             {description}
           </p>
 
-          <div className="mt-10 flex flex-wrap gap-4">
+          <div className="mt-8 flex flex-wrap gap-3 md:mt-10 md:gap-4">
             <Link
               href={primaryHref}
-              className="rounded-md bg-sky-400 px-6 py-3 font-semibold text-slate-950 transition hover:bg-sky-300"
+              className="rounded-md bg-sky-400 px-5 py-3 font-semibold text-slate-950 transition hover:bg-sky-300 md:px-6"
             >
               {primaryLabel}
             </Link>
 
             <Link
               href={secondaryHref}
-              className="rounded-md border border-white/70 px-6 py-3 font-semibold text-white transition hover:bg-white hover:text-slate-900"
+              className="rounded-md border border-white/70 bg-black/10 px-5 py-3 font-semibold text-white transition hover:bg-white hover:text-slate-900 md:px-6"
             >
               {secondaryLabel}
             </Link>
