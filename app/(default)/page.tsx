@@ -1,23 +1,5 @@
-import Hero from "@/components/Hero";
-import AboutPreview from "@/components/AboutPreview";
-import ServicesPreview from "@/components/ServicesPreview";
-import WhyChooseUs from "@/components/WhyChooseUs";
-import ProjectsPreview from "@/components/ProjectsPreview";
-import Footer from "@/components/Footer";
-import CallToAction from "@/components/CallToAction";
+import { permanentRedirect } from "next/navigation";
 
-
-export default function Home() {
-  return (
-    <main>
-      <Hero />
-      <AboutPreview />
-      <ServicesPreview />
-      <WhyChooseUs />
-      <ProjectsPreview />
-      <CallToAction />
-      <Footer />
-    </main>
-  );
+export default function HomePage() {
+  permanentRedirect("/en");
 }
-

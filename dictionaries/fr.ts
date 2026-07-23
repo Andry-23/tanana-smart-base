@@ -279,13 +279,13 @@ const fr = {
       requirementNote:
         "Seuls l’objet et le message sont obligatoires. Les coordonnées sont facultatives, mais elles nous permettent de vous répondre lorsqu’un échange complémentaire est nécessaire.",
 
-      sendingLabel: "Envoi en cours...",
+      sendingLabel: "Soumission en cours...",
       submitLabel: "Envoyer le message",
 
       successMessage:
-        "Merci. Votre message a été envoyé avec succès. Si vous avez indiqué vos coordonnées, notre équipe pourra répondre à votre demande.",
+        "Merci. Votre message a bien été reçu. Si vous avez indiqué vos coordonnées, notre équipe pourra répondre à votre demande.",
       errorMessage:
-        "Votre message n’a pas pu être envoyé. Veuillez réessayer.",
+        "Votre message n’a pas pu être soumis. Veuillez réessayer.",
 
       honeypotLabel: "Site internet de l’entreprise",
 
@@ -668,7 +668,7 @@ const fr = {
       {
         title: "5. Prestataires de services et transferts de données",
         intro: [
-          "Le site utilise des prestataires techniques tiers afin de fonctionner de manière sécurisée et d’acheminer les messages envoyés par le formulaire de contact. Ces prestataires comprennent actuellement Cloudflare pour l’hébergement et la sécurité du site, ainsi que Resend pour l’envoi des emails.",
+          "Le site utilise Cloudflare pour l’hébergement, la sécurité et le stockage des données. Les messages envoyés par le formulaire de contact sont enregistrés dans une base de données Cloudflare D1 afin que Tanana Smart Base puisse les examiner et y répondre.",
           "Ces prestataires peuvent traiter certaines informations limitées en dehors de Madagascar. Nous limitons les informations partagées à ce qui est raisonnablement nécessaire pour fournir le service concerné et cherchons à utiliser des prestataires disposant de mesures appropriées de protection de la vie privée et de sécurité.",
         ],
         details: [],

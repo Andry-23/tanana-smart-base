@@ -1,4 +1,12 @@
-import { Resend } from "resend";
+import {
+  ContactDatabaseNotConfiguredError,
+  saveContactSubmission,
+} from "@/lib/contact-database";
+import {
+  defaultLocale,
+  isLocale,
+  type Locale,
+} from "@/lib/i18n";
 
 type ContactRequest = {
   name?: unknown;
@@ -7,6 +15,8 @@ type ContactRequest = {
   subject?: unknown;
   message?: unknown;
   company?: unknown;
+  locale?: unknown;
+  startedAt?: unknown;
 };
 
 const allowedSubjects = new Set([
@@ -20,40 +30,83 @@ const allowedSubjects = new Set([
 ]);
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const maximumRequestSize = 20_000;
+const minimumCompletionTime = 1_500;
 
 function getString(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
-function escapeHtml(value: string): string {
-  const characters: Record<string, string> = {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;",
-  };
+function getLocale(value: unknown): Locale {
+  return typeof value === "string" && isLocale(value)
+    ? value
+    : defaultLocale;
+}
 
-  return value.replace(/[&<>"']/g, (character) => characters[character]);
+function isSameOrigin(request: Request): boolean {
+  const origin = request.headers.get("origin");
+
+  if (!origin) {
+    return true;
+  }
+
+  try {
+    return new URL(origin).host === new URL(request.url).host;
+  } catch {
+    return false;
+  }
+}
+
+function isLikelyAutomatedSubmission(body: ContactRequest): boolean {
+  if (getString(body.company)) {
+    return true;
+  }
+
+  if (typeof body.startedAt !== "number") {
+    return false;
+  }
+
+  return Date.now() - body.startedAt < minimumCompletionTime;
 }
 
 export async function POST(request: Request) {
   try {
+    if (!isSameOrigin(request)) {
+      return Response.json(
+        { error: "Cross-origin submissions are not accepted." },
+        { status: 403 },
+      );
+    }
+
+    const contentLength = Number(
+      request.headers.get("content-length") ?? 0,
+    );
+
+    if (
+      Number.isFinite(contentLength) &&
+      contentLength > maximumRequestSize
+    ) {
+      return Response.json(
+        { error: "The submitted message is too large." },
+        { status: 413 },
+      );
+    }
+
     const body = (await request.json()) as ContactRequest;
+
+    // Silently accept honeypot or impossibly fast submissions without
+    // creating a database record.
+    if (isLikelyAutomatedSubmission(body)) {
+      return Response.json({ success: true });
+    }
 
     const name = getString(body.name);
     const email = getString(body.email).toLowerCase();
     const phone = getString(body.phone);
     const subject = getString(body.subject);
     const message = getString(body.message);
-    const company = getString(body.company);
+    const locale = getLocale(body.locale);
 
-    // Honeypot field: silently accept likely spam submissions.
-    if (company) {
-      return Response.json({ success: true });
-    }
-
-    // Name is optional, but validate it when provided.
     if (name && (name.length < 2 || name.length > 100)) {
       return Response.json(
         { error: "Please provide a valid full name." },
@@ -61,7 +114,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Email is optional, but validate it when provided.
     if (email && (!emailPattern.test(email) || email.length > 150)) {
       return Response.json(
         { error: "Please provide a valid email address." },
@@ -93,106 +145,36 @@ export async function POST(request: Request) {
       );
     }
 
-    const apiKey = process.env.RESEND_API_KEY;
+    const id = crypto.randomUUID();
 
-    if (!apiKey) {
-      console.error("RESEND_API_KEY is not configured.");
-
-      return Response.json(
-        {
-          error:
-            "The message service is not configured yet. Please contact us by email or WhatsApp.",
-        },
-        { status: 500 },
-      );
-    }
-
-    const resend = new Resend(apiKey);
-
-    const safeName = escapeHtml(name || "Not provided");
-    const safeEmail = escapeHtml(email || "Not provided");
-    const safePhone = escapeHtml(phone || "Not provided");
-    const safeSubject = escapeHtml(subject);
-    const safeMessage = escapeHtml(message).replace(/\n/g, "<br />");
-
-    const { data, error } = await resend.emails.send({
-      from: "Tanana Smart Base Website <website@send.tananasmartbase.com>",
-      to: ["info@tananasmartbase.com"],
-      subject: `New website enquiry — ${subject}`,
-
-      ...(email
-        ? {
-            headers: {
-              "Reply-To": email,
-            },
-          }
-        : {}),
-
-      text: [
-        "New Tanana Smart Base website enquiry",
-        "",
-        `Name: ${name || "Not provided"}`,
-        `Email: ${email || "Not provided"}`,
-        `Phone / WhatsApp: ${phone || "Not provided"}`,
-        `Subject: ${subject}`,
-        "",
-        "Message:",
-        message,
-      ].join("\n"),
-
-      html: `
-        <div style="font-family: Arial, sans-serif; color: #0f172a; line-height: 1.6;">
-          <h1 style="font-size: 24px; margin-bottom: 24px;">
-            New website enquiry
-          </h1>
-
-          <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
-            <tr>
-              <td style="padding: 8px; font-weight: bold;">Name</td>
-              <td style="padding: 8px;">${safeName}</td>
-            </tr>
-
-            <tr>
-              <td style="padding: 8px; font-weight: bold;">Email</td>
-              <td style="padding: 8px;">${safeEmail}</td>
-            </tr>
-
-            <tr>
-              <td style="padding: 8px; font-weight: bold;">Phone / WhatsApp</td>
-              <td style="padding: 8px;">${safePhone}</td>
-            </tr>
-
-            <tr>
-              <td style="padding: 8px; font-weight: bold;">Subject</td>
-              <td style="padding: 8px;">${safeSubject}</td>
-            </tr>
-          </table>
-
-          <div style="padding: 20px; background: #f0f9ff; border-left: 4px solid #0ea5e9;">
-            <strong>Message</strong>
-            <p style="margin-bottom: 0;">${safeMessage}</p>
-          </div>
-        </div>
-      `,
+    await saveContactSubmission({
+      id,
+      submittedAt: new Date().toISOString(),
+      language: locale,
+      name: name || null,
+      email: email || null,
+      phone: phone || null,
+      subject,
+      message,
     });
-
-    if (error) {
-      console.error("Resend error:", error);
-
-      return Response.json(
-        {
-          error:
-            "Your message could not be sent. Please try again or contact us by email or WhatsApp.",
-        },
-        { status: 502 },
-      );
-    }
 
     return Response.json({
       success: true,
-      id: data?.id,
+      id,
     });
   } catch (error) {
+    if (error instanceof ContactDatabaseNotConfiguredError) {
+      console.error("CONTACT_DB is not configured.");
+
+      return Response.json(
+        {
+          error:
+            "The message service is temporarily unavailable. Please contact us by email or WhatsApp.",
+        },
+        { status: 503 },
+      );
+    }
+
     console.error("Contact API error:", error);
 
     return Response.json(

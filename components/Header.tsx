@@ -5,19 +5,11 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import en from "@/dictionaries/en";
-import fr from "@/dictionaries/fr";
-import mg from "@/dictionaries/mg";
 import {
   defaultLocale,
   isLocale,
 } from "@/lib/i18n";
-
-const dictionaries = {
-  en,
-  fr,
-  mg,
-};
+import { siteChrome } from "@/lib/site-chrome";
 
 export default function Header() {
   const pathname = usePathname();
@@ -30,7 +22,7 @@ export default function Header() {
     ? firstPathSegment
     : defaultLocale;
 
-  const dictionary = dictionaries[currentLocale];
+  const dictionary = siteChrome[currentLocale];
 
   const navigation = [
     {

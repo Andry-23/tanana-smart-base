@@ -95,6 +95,7 @@ export default async function LocalizedContactPage({
         directionsLabel={contact.location.actionLabel}
         directionsAriaLabel={contact.location.ariaLabel}
         formProps={{
+          locale,
           services: form.services,
 
           eyebrow: form.eyebrow,

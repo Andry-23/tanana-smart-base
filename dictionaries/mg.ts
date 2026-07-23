@@ -288,13 +288,13 @@ const mg = {
       requirementNote:
         "Ny lohahevitra sy ny hafatra ihany no tsy maintsy fenoina. Tsy voatery ny mombamomba anao, saingy manampy anay hamaly anao izany raha ilaina ny fifanakalozan-kevitra fanampiny.",
 
-      sendingLabel: "Eo am-pandefasana...",
+      sendingLabel: "Eo am-pandraisana...",
       submitLabel: "Alefaso ny hafatra",
 
       successMessage:
         "Misaotra. Voaray soa aman-tsara ny hafatrao. Raha nampiditra ny mombamomba anao ianao dia afaka mamaly ny fangatahanao ny ekipanay.",
       errorMessage:
-        "Tsy afaka nalefa ny hafatrao. Andramo indray azafady.",
+        "Tsy afaka noraisina ny hafatrao. Andramo indray azafady.",
 
       honeypotLabel: "Tranonkalan’ny orinasa",
 
@@ -677,7 +677,7 @@ const mg = {
       {
         title: "5. Mpanome tolotra sy famindrana angona",
         intro: [
-          "Mampiasa mpanome tolotra ara-teknika avy amin’ny antoko fahatelo ny tranonkala mba hiasa am-pilaminana sy handefasana ireo hafatra avy amin’ny taratasy fifandraisana. Anisan’izany amin’izao fotoana izao ny Cloudflare ho an’ny fampiantranoana sy fiarovana ny tranonkala, ary ny Resend ho an’ny fandefasana email.",
+          "Mampiasa Cloudflare ny tranonkala ho an’ny fampiantranoana, ny fiarovana ary ny fitahirizana angona. Tehirizina ao amin’ny tahiry Cloudflare D1 ireo hafatra alefa amin’ny taratasy fifandraisana mba hahafahan’ny Tanana Smart Base mandinika sy mamaly azy.",
           "Ireo mpanome tolotra ireo dia mety hikarakara fampahalalana voafetra any ivelan’i Madagasikara. Feranay amin’izay tena ilaina amin’ny fanomezana ny tolotra mifandraika amin’izany ny fampahalalana zaraina, ary miezaka mampiasa mpanome tolotra manana fepetra fiarovana sy tsiambaratelo mifanaraka amin’izany izahay.",
         ],
         details: [],

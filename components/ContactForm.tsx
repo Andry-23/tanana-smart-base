@@ -1,6 +1,13 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type FormEvent,
+} from "react";
+
+import type { Locale } from "@/lib/i18n";
 
 type FormStatus = "idle" | "sending" | "success" | "error";
 
@@ -41,6 +48,7 @@ const defaultServices: readonly ContactFormOption[] = [
 ];
 
 type ContactFormProps = {
+  locale?: Locale;
   services?: readonly ContactFormOption[];
 
   eyebrow?: string;
@@ -80,6 +88,7 @@ type ContactFormProps = {
 };
 
 export default function ContactForm({
+  locale = "en",
   services = defaultServices,
 
   eyebrow = "Send Us a Message",
@@ -109,16 +118,21 @@ export default function ContactForm({
 
   requirementNote = "Only the subject and message are required. Contact information is optional, but it allows us to reply if further discussion is necessary.",
 
-  sendingLabel = "Sending...",
+  sendingLabel = "Submitting...",
   submitLabel = "Submit Message",
 
-  successMessage = "Thank you. Your message has been sent successfully. If you included contact information, our team will be able to respond to your enquiry.",
-  errorMessage = "Your message could not be sent. Please try again.",
+  successMessage = "Thank you. Your message has been received successfully. If you included contact information, our team will be able to respond to your enquiry.",
+  errorMessage = "Your message could not be submitted. Please try again.",
 
   honeypotLabel = "Company website",
 }: ContactFormProps) {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [feedback, setFeedback] = useState("");
+  const startedAt = useRef<number | null>(null);
+
+  useEffect(() => {
+    startedAt.current = Date.now();
+  }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -142,6 +156,8 @@ export default function ContactForm({
           subject: formData.get("subject"),
           message: formData.get("message"),
           company: formData.get("company"),
+          locale,
+          startedAt: startedAt.current,
         }),
       });
 
@@ -150,6 +166,7 @@ export default function ContactForm({
       }
 
       form.reset();
+      startedAt.current = Date.now();
       setStatus("success");
       setFeedback(successMessage);
     } catch {
@@ -197,7 +214,11 @@ export default function ContactForm({
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="relative">
+        <form
+          onSubmit={handleSubmit}
+          aria-busy={status === "sending"}
+          className="relative"
+        >
           <div className="hidden" aria-hidden="true">
             <label htmlFor="company">{honeypotLabel}</label>
 

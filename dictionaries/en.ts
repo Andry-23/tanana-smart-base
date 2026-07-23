@@ -279,13 +279,13 @@ const en = {
       requirementNote:
         "Only the subject and message are required. Contact information is optional, but it allows us to reply if further discussion is necessary.",
 
-      sendingLabel: "Sending...",
+      sendingLabel: "Submitting...",
       submitLabel: "Submit Message",
 
       successMessage:
-        "Thank you. Your message has been sent successfully. If you included contact information, our team will be able to respond to your enquiry.",
+        "Thank you. Your message has been received successfully. If you included contact information, our team will be able to respond to your enquiry.",
       errorMessage:
-        "Your message could not be sent. Please try again.",
+        "Your message could not be submitted. Please try again.",
 
       honeypotLabel: "Company website",
 
@@ -668,7 +668,7 @@ const en = {
       {
         title: "5. Service Providers and Data Transfers",
         intro: [
-          "The website uses third-party technical providers to operate securely and deliver contact-form messages. These currently include Cloudflare for website hosting and security services, and Resend for email delivery.",
+          "The website uses Cloudflare for hosting, security and database storage. Messages submitted through the contact form are stored in a Cloudflare D1 database so that Tanana Smart Base can review and respond to enquiries.",
           "These providers may process limited information outside Madagascar. We limit the information shared to what is reasonably necessary for the relevant service and seek to use providers that maintain appropriate privacy and security safeguards.",
         ],
         details: [],

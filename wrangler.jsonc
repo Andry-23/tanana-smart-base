@@ -19,6 +19,13 @@
   "images": {
     "binding": "IMAGES"
   },
+  "d1_databases": [
+    {
+      "binding": "CONTACT_DB",
+      "database_name": "tanana-smart-base-contact",
+      "database_id": "2a596fcf-325c-4d2e-8610-190ac23d32b2"
+    }
+  ],
   "observability": {
     "enabled": true
   }
