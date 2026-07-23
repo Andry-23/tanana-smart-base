@@ -192,6 +192,7 @@ export default function Header() {
                 label={dictionary.language.selectorLabel}
                 switchTo={dictionary.language.switchTo}
                 onNavigate={closeMenu}
+                inlineMenu
               />
             </div>
           )}

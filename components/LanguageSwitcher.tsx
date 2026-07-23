@@ -19,6 +19,7 @@ type LanguageSwitcherProps = {
   label: string;
   switchTo: string;
   onNavigate?: () => void;
+  inlineMenu?: boolean;
 };
 
 function getLocalizedPath(pathname: string, locale: Locale) {
@@ -39,6 +40,7 @@ export default function LanguageSwitcher({
   label,
   switchTo,
   onNavigate,
+  inlineMenu = false,
 }: LanguageSwitcherProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -115,7 +117,9 @@ export default function LanguageSwitcher({
         <ul
           id={menuId}
           aria-label={label}
-          className="absolute right-0 top-full z-50 mt-2 w-44 overflow-hidden rounded-lg border border-white/20 bg-[#0b3557] p-1.5 shadow-2xl"
+          className={`z-50 mt-2 w-44 overflow-hidden rounded-lg border border-white/20 bg-[#0b3557] p-1.5 shadow-2xl ${
+            inlineMenu ? "relative" : "absolute right-0 top-full"
+          }`}
         >
           {locales.map((locale) => {
             const isActive = locale === currentLocale;
